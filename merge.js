@@ -4,34 +4,51 @@
 // sort right half
 // sort left half
 // merge both
-let array = [1, 3, 7, 4, 5, 9, 2];
-let a = [2, 5];
-let b = [3, 4];
-const sort = (a, b) => {
-    let parent = [];
+let array = [4, 8, 6, 2, 1, 7, 5, 3];
+const merge = (a, b, c) => {
+    // let parent = [];
     let apointer = 0;
     let bpointer = 0;
     let ppointer = 0;
-    while (apointer <= a.length && bpointer <=b.length) {
+    console.log(a);
+    console.log(b);
+    while (apointer < a.length && bpointer < b.length) {
         if (a[apointer] < b[bpointer]) {
-            parent[ppointer] = a[apointer];
+            c[ppointer] = a[apointer];
             apointer++;
         } else {
-            parent[ppointer] = b[bpointer];
+            c[ppointer] = b[bpointer];
             bpointer++;
         }
         ppointer++;
-
     }
-    return parent;
+    if (apointer >= a.length) {
+        for (let i = bpointer; i < b.length; i++) {
+            c[ppointer] = b[bpointer];
+            ppointer++;
+            bpointer++;
+        }
+    } else {
+        for (let i = apointer; i < a.length; i++) {
+            c[ppointer] = a[apointer];
+            ppointer++;
+            apointer++;
+        }
+    }
+    return c;
+}
+const sort = (a, b) => {
+
 }
 const ms = (input) => {
+    console.log(input);
     if (input.length < 2) {
         return input;
     } else {
         let half = Math.ceil(input.length/2);
-        let left = input.slice(0, half);
-        let right = input.slice(half, input.length);
+        let left = ms(input.slice(0, half));
+        let right = ms(input.slice(half, input.length));
+        return merge(left, right, input);
     }
 }
-console.log(sort(a, b));
+console.log(ms(array));
